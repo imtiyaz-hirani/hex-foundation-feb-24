@@ -1,0 +1,117 @@
+Brute Force / Heuristic 
+-----------------------
+
+In this problem solving technique, We use all possible permutations and combinations to fix the problem without thinking about the implications of this on system/application/server. 
+
+IN simple terms, I say, I dont care. I want to solve this problem, and I will go for maximum force and solve it. 
+
+Ex. 
+1. Cracking of password 
+2. Fetching data from DB 
+
+Finally, I would recommend not to go for brute force immediately unless we have gone through other problem solving techniques. this should be the last choice. 
+
+
+Greedy Approach
+---------------
+
+If we have a big or complex problem, then we must split it into steps in such a way that,
+
+Output of Step 1 becomes Input of Step 2
+
+and hence like wise eventually when all conditions are evaluated and data is filtered, We get the output. 
+
+Advantage: It makes problem solving easier and more realistic.
+
+Note: It might not always be possible to split the problem into layered steps. 
+
+In Applications, I can fetch the data using queries from the DB and filter the data in Java programming using Java Streams API and Lambda Expressions. (Trainer said this...)
+
+Divide and Conquer
+------------------
+
+This technique tries to reduce the work that is to be done to sort given elements in any order. 
+
+So suppose we have 5 elements (n=5) 
+if we use Liner technique and compare elements with one another then we will need 24 comparisions. 
+
+However if we divide the original list into part until we have 2 elements in each part, then our comparision reduces
+to just 7. 
+
+So we can see that total number of comparisions in Divide and Conquer are far lesser than in Liner technique. 
+
+The only overhead that we have in Divide and Conquer is Divide. But that for compiler is not too must of an issue. 
+
+So we must always use Divide and Conquer technique on datasets to perform Searching, Sorting and other comparision ops. 
+
+
+Dynamic Programming
+====================
+a. Code resuability 
+b. Calling function recursively 
+
+- Create a function in a generelized way, if possible, so that other programmers or you yourself can call that for similar ops. hence we write the code once and use it many times. 
+
+- if we call the same function from within itself then it is called recursion. it is a very effective way of programming but applies only to few cases. 
+
+
+You have three jugs, which we will call A, B, and C. Jug A can hold exactly 8 cups of water, B can hold exactly 5 cups, and C can hold exactly 3 cups. A is filled to capacity with 8 cups of water. B and C are empty. We want you to find a way of dividing the contents of A equally between A and B so that both have 4 
+cups. You are allowed to pour water from jug to jug.
+
+A --> B : 5 cups 
+
+A(3) B(5) C(0)
+
+B --> C : 3 cups 
+
+A(3) B(2) C(3) 
+
+C --> A 
+
+A(6) B(2) C(0)
+
+B --> C
+
+A(6) B(0) C(2)
+
+A -> B
+
+A(1) B(5) C(2)
+
+B-> C
+
+A(1) B(4) C(3)
+
+C --> A
+
+A(4) B(4) C(0)
+
+
+Java Version
+==============
+
+Java 8 
+Java 11
+Java 17 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

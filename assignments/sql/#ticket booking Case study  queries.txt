@@ -1,0 +1,106 @@
+#ticket booking Case study 
+use ticketbooking_feb_hex_24;
+#insertions 
+insert into venue(venue_name,address) values 
+('mumbai', 'marol andheri(w)'),
+('chennai', 'IT Park'),
+('pondicherry ', 'state beach');
+
+select * from venue;
+
+insert into customer(customer_name,email,phone_number) 
+values
+('harry potter','harry@gmail.com','45454545'),
+('ronald weasley','ron@gmail.com','45454545'),
+('hermione granger','her@gmail.com','45454545'),
+('draco malfoy','drac@gmail.com','45454545'),
+('ginni weasley','ginni@gmail.com','45454545');
+
+select * from customer; 
+
+insert into event(event_name,event_date,event_time,total_seats,available_seats,ticket_price,event_type,venue_id)
+values 
+('Late Ms. Lata Mangeshkar Musical', '2021-09-12','20:00',320,270,600,'concert',3),
+('CSK vs RCB', '2024-04-11','19:30',23000,3,3600,'sports',2),
+('CSK vs RR', '2024-04-19','19:30',23000,10,3400,'sports',2),
+('MI vs KKR', '2024-05-01','15:30',28000,100,8000,'sports',1);
+
+select * from event; 
+
+insert into booking values 
+(4,1,2,640,'2021-09-12'),
+(4,4,3,960,'2021-09-12'),
+(5,1,3,10800,'2024-04-11'),
+(5,3,5,18000,'2024-04-10'),
+(6,5,10,34000,'2024-04-15'),
+(7,2,4,32000,'2024-05-01');
+
+#SQL Queries - Task 2
+
+-- 2. Write a SQL query to list all Events.
+select * from event; 
+
+update event SET event_name='Conferece CUP' where id=7;
+
+--  Write a SQL query to select events name partial match with ‘cup’.
+select * 
+from event
+where event_name LIKE '%cup%';
+
+/* Output: 
++----+---------------+------------+------------+-------------+-----------------+--------------+------------+----------+
+| id | event_name    | event_date | event_time | total_seats | available_seats | ticket_price | event_type | venue_id |
++----+---------------+------------+------------+-------------+-----------------+--------------+------------+----------+
+|  7 | Conferece CUP | 2024-05-01 | 15:30:00   |       28000 |             100 |         8000 | sports     |        1 |
++----+---------------+------------+------------+-------------+-----------------+--------------+------------+----------+
+*/
+
+-- Write a SQL query to retrieve events with dates falling within a specific range
+
+select * 
+from event
+where event_date BETWEEN '2024-04-11' AND '2024-05-01';
+
+/*
++----+---------------+------------+------------+-------------+-----------------+--------------+------------+----------+
+| id | event_name    | event_date | event_time | total_seats | available_seats | ticket_price | event_type | venue_id |
++----+---------------+------------+------------+-------------+-----------------+--------------+------------+----------+
+|  5 | CSK vs RCB    | 2024-04-11 | 19:30:00   |       23000 |               3 |         3600 | sports     |        2 |
+|  6 | CSK vs RR     | 2024-04-19 | 19:30:00   |       23000 |              10 |         3400 | sports     |        2 |
+|  7 | Conferece CUP | 2024-05-01 | 15:30:00   |       28000 |             100 |         8000 | sports     |        1 |
++----+---------------+------------+------------+-------------+-----------------+--------------+------------+----------+
+*/
+
+-- 8. Write a SQL query to retrieve customers in batches of 5, starting from the 6th user.
+
+select * 
+from customer
+limit 3,2;
+
+select * 
+from customer
+limit 5,5; #records 6-10
+
+/* 
+LIMIT <offset>,<number_of_records>
+- offest is the record after which we start counting - so if offset is 3 we start from 4
+- number_of_records given will be displayed  
+*/
+
+-- 10. Write a SQL query to retrieve customer information whose phone number end with ‘000’
+
+select * 
+from customer 
+where phone_number LIKE '%000'; # ends number with 000 
+
+-- Write a SQL query to retrieve the events in order whose seat capacity more than 15000.
+select * 
+from event
+where total_seats > 15000
+order by total_seats ASC ; 
+
+-- 12. Write a SQL query to select events name not start with ‘x’, ‘y’, ‘z’
+
+select * 
+from event
+where event_name NOT LIKE 'c%' AND event_name NOT LIKE 'x%'; 

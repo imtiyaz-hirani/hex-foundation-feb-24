@@ -104,3 +104,20 @@ order by total_seats ASC ;
 select * 
 from event
 where event_name NOT LIKE 'c%' AND event_name NOT LIKE 'x%'; 
+
+
+Tasks 2: Select, Where, Between, AND, LIKE:
+1. Write a SQL query to insert at least 10 sample records into each table.
+2. Write a SQL query to list all Events.
+3. Write a SQL query to select events with available tickets.
+4. Write a SQL query to select events name partial match with ‘cup’.
+5. Write a SQL query to select events with ticket price range is between 1000 to 2500.
+6. Write a SQL query to retrieve events with dates falling within a specific range.
+7. Write a SQL query to retrieve events with available tickets that also have "Concert" in their 
+name.
+8. Write a SQL query to retrieve users in batches of 5, starting from the 6th user.
+9. Write a SQL query to retrieve bookings details contains booked no of ticket more than 4.
+
+10. Write a SQL query to retrieve customer information whose phone number end with ‘000’
+11. Write a SQL query to retrieve the events in order whose seat capacity more than 15000.
+12. Write a SQL query to select events name not start with ‘x’, ‘y’, ‘z’

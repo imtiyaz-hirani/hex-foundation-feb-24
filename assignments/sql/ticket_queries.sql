@@ -325,6 +325,100 @@ group by c.customer_name;
 -- now() gives todays date 
  
 
+/* 
+Q. Names of Customers who have visited venue 'chennai' using all three techniques(Nested Query).
+*/
+
+select id,customer_name
+from customer 
+where id IN (select customer_id 
+			 from booking
+			 where event_id IN (select id 
+								from event
+                                where venue_id IN (select id
+												   from venue 
+                                                   where venue_name='chennai')));
+                                                   
+/* 
++----+------------------+
+| id | customer_name    |
++----+------------------+
+|  1 | harry potter     |
+|  3 | hermione granger |
+|  5 | ginni weasley    |
++----+------------------+
+*/
+
+-- Task 4: Subquery and its types
+
+/* 
+1. Calculate the Average Ticket Price for Events in Each Venue Using a Subquery
+*/
+
+select venue_id,AVG(ticket_price) as Avg_Price
+from event
+where venue_id IN (select id from venue) 
+group by venue_id;
+
+/* 
+2. Find Events with More Than 50% of Tickets Sold using subquery.
+*/
+select event_name
+from event
+where id IN ( select id 
+			  from event 
+              where (total_seats - available_seats) > (total_seats/2));
+
+/* 
+3. Find Events having ticket price more than average ticket price of all events  
+*/
+
+select event_name
+from event 
+where ticket_price >  (select avg(ticket_price) from event); 
+ 
+ /* 
+ 4. Find Customers Who Have Not Booked Any Tickets Using a NOT EXISTS Subquery.
+ */
+ 
+ insert into customer(customer_name,email,phone_number) 
+ values ('severus snape', 'sev@gmail.com','56556');
+ 
+ select * from customer; 
+ 
+ -- SELECT column1 FROM t1 WHERE EXISTS (TABLE t2);
+
+# if there is even 1 row in table t2 then the where clause condition is evaluated to true. 
+
+ select customer_name
+ from customer
+ where NOT EXISTS (select distinct c.customer_name
+				from customer c join booking b ON b.customer_id = c.id);
+ 
+ 
+ select distinct c.customer_name
+				from customer c join booking b ON b.customer_id = c.id; 
+                
+                
+                
+/* 
+Display customer details having email 'harry@gmail.com' provided this customer  
+has attended atleast 1 event. 
+*/     
+ 
+select * 
+from customer 
+where EXISTS (select distinct c.id 
+			  from customer c join booking b ON c.id=b.customer_id 
+              where c.email='harry@gmail.com')  
+AND email='harry@gmail.com';
+
+select * 
+from customer 
+where EXISTS (select distinct c.id 
+			  from customer c join booking b ON c.id=b.customer_id 
+              where c.email='sev@gmail.com')  
+AND email='sev@gmail.com';
 
 
 

@@ -203,3 +203,106 @@ period.
 13. List customers with high aggregate account balances, along with their account types.
 14. Identify and list duplicate transactions based on transaction amount, date, and account
 */
+
+use bank_hex_feb_24;
+-- Task 4: Sub query
+/* 
+	2. Calculate the average account balance for customers who have more than one account.
+*/
+
+-- find customers having more than 1 account 
+
+select customer_id    
+from account
+group by customer_id
+having count(id) > 1; -- (1,3) 
+
+-- find avg account balance for all customers 
+select avg(balance)
+from account; 
+
+-- for specific customer from above query
+select avg(balance)
+from account
+where customer_id IN (select customer_id    
+					  from account
+					  group by customer_id
+					  having count(id) > 1);
+
+/*
+avg(balance)
+'82500'
+*/
+
+/* 
+10. Calculate the total balance for each account type, including a subquery within the SELECT
+clause.
+*/
+
+--  In Select, we can do arithmetic operations. If sub query returns multiple rows then it cannot be written in select. 
+ 
+ 
+ select account_type, SUM(balance) as total_balance
+from account
+group by account_type;
+ 
+/* 
+	account_type	total_balance
+	current			270000
+	savings			80000
+	zero_balance	100000
+*/
+
+/* 9. Retrieve all transactions for a customer with a given customer_id. */
+
+-- S1: fetch all account_id for a given customer 
+select id
+from account
+where customer_id=1;
+ 
+-- S2: fetch all transactions for accounts from step 1 
+select * 
+from transaction 
+where account_id IN (select id
+					 from account
+					 where customer_id=1);
+                     
+/* 
+	1	deposit	10000	2024-02-01	1
+	2	withdrawal	5000	2024-02-02	1
+	5	transfer	20000	2024-02-01	4
+*/                     
+
+/* 
+4. Identify customers who have no recorded transactions.
+*/
+select id,first_name
+from customer
+where id IN (select customer_id from account where id NOT IN (select account_id from transaction));
+
+insert into customer(first_name,last_name,dob) values ('draco','malfoy','2000-05-06');
+insert into account(account_type,balance,customer_id) values ('zero_balance',40000,4);
+select * from customer;
+select * from account; 
+
+-- troubleshooting 
+select distinct account_id from transaction; -- (1,2,3,4,5)
+select customer_id from account where id NOT IN (1,2,3,4,5); -- (6)
+select * from customer where id IN (4);
+
+
+/* 
+Tasks 4: Subquery and its type:
+1. Retrieve the customer(s) with the highest account balance.
+2. Calculate the average account balance for customers who have more than one account.
+3. Retrieve accounts with transactions whose amounts exceed the average transaction amount.
+4. Identify customers who have no recorded transactions.
+5. Calculate the total balance of accounts with no recorded transactions.
+6. Retrieve transactions for accounts with the lowest balance.
+7. Identify customers who have accounts of multiple types.
+8. Calculate the percentage of each account type out of the total number of accounts.
+9. Retrieve all transactions for a customer with a given customer_id.
+10. Calculate the total balance for each account type, including a subquery within the SELECT
+clause.
+*/
+

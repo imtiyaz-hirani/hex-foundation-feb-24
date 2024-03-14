@@ -1,0 +1,191 @@
+Exception Handling
+==================
+
+- IF there is an issue with the logic, which happens if input parameters are wrong, then JVM throws an Exception in the console. 
+
+Ex: 
+
+public class CalculatorService {
+
+	public double divOp(int n1, int n2) {
+		return n1/n2;
+	}
+
+}
+
+If the above method is called from controller with proper inputs, it will give proper result. 
+But if the inputs are wrong or illegal, then JVM will throw an Exception. 
+
+calcService.divOp(9,3); -- result as 3.0 
+calcService.divOp(9,0); -- Exception 
+
+NOte: When exception is thrown in the output the program halts. 
+
+- Exception details 
+
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+class Name: ArithmeticException
+message: / by zero
+
+- We must handle the exception in the controller using try-catch block. 
+Tip: Always display proper relevant error msg 
+
+	    try {	
+		double result = calcService.divOp(n1,n2);
+		System.out.println("Result is " + result);
+	    }catch(ArithmeticException e) {
+	    	System.out.println("Exception occured: " +e.getMessage());
+	    }
+
+Suppose you do not know which exception will be thrown, in such case you can use broader exception as well. 
+
+Exception
+   |
+RuntimeException
+   |
+ArithmeticException
+
+OR
+
+Programmer can also handle exception with multiple classes. 
+
+	    try {
+		double result = calcService.divOp(n1,n2);
+		System.out.println("Result is " + result);
+	    }
+	    catch(ArithmeticException e) {
+	    	System.out.println("ArithmeticException occured: " +e.getMessage());
+	    }
+	    catch(Exception e) {
+	    	System.out.println("Exception occured: " +e.getMessage());
+	    }
+
+Case Study: 
+Calculate the percent on the basis of marks given
+
+-> Take marks of 3 subjects as input from the user. 
+-> Compute grade based on following criteria
+
+percent > 75 : A
+percent > 60 : B
+percent > 45 : C
+	     : D
+
+Validations: 
+1. All marks given by user for each subject must not be more than 100 OR in negative 
+
+Note: 
+double percent = (subj1 + subj2 + subj3 ) / total_marks * 100 
+
+Tip: for validations use custom Exception: InvalidMarksException
+
+Solution:
+
+import java.util.Scanner;
+
+import com.exception.InvalidMarksException;
+import com.service.MarksService;
+ 
+public class MarksController {
+	 public static void main(String[] args) {
+		 MarksService marksService = new MarksService();
+		 Scanner sc = new Scanner(System.in);
+		 Double[] marks = new Double[3];
+		 
+		 for(int i=0;i<3;i++) { //i=0,1,2
+			 System.out.println("Enter marks for subj" + (i+1) + ": ");
+			 marks[i] = sc.nextDouble();
+		 }
+		 double totalMarks = 300; 
+		 
+		try {
+			String grade = marksService.computeGrade(marks,totalMarks);
+			System.out.println("Your grade is " + grade);
+		} catch (InvalidMarksException e) {
+			 System.out.println(e.getMessage());
+		}		
+	}
+}
+
+/* 
+ * Double[] marks = new Double[3];
+ * marks = [78,82,67]
+ */
+
+MarksService.java
+-------------------
+import com.exception.InvalidMarksException;
+
+public class MarksService {
+
+	public String computeGrade(Double[] marks, double totalMarks) 
+	throws InvalidMarksException{
+		/* Validations */
+		for(double s : marks) {
+			 if(s>100 || s<0)
+				 throw new InvalidMarksException("Invalid marks value given: " + s);
+		 }
+		 
+		 double marksScored = 0; 
+		 
+		 for(double s : marks) {
+			 marksScored = marksScored + s;
+		 }
+		 
+		 double percent = (marksScored / totalMarks) * 100; 
+
+		 if(percent > 75)
+			 return "A";
+		 
+		 if(percent > 60)
+			 return "B";
+		 
+		 if(percent > 45)
+			 return "C";
+		 
+		return "D";
+	}
+
+}
+
+
+
+MarksServiceException.java
+---------------------------
+
+package com.exception;
+
+public class InvalidMarksException extends Exception{
+
+	private String message; 
+	
+	public InvalidMarksException(String message) {
+		 this.message = message;
+	}
+
+	@Override
+	public String getMessage() {
+		return message;
+	}
+	
+	private static final long serialVersionUID = 1L;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

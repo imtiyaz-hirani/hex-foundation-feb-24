@@ -1,0 +1,39 @@
+Java DB Connection to MySql
+===========================
+Step 1:
+-------
+Download the driver and add it as reference library to java app 
+download from: mvnrepository.com
+
+Search for: mysql-java-connector
+
+Go to: https://mvnrepository.com/artifact/com.mysql/mysql-connector-j/8.0.33
+Download: jar file 
+
+Copy the jar from downloads and paste it in, lib folder of java project. You have to create a folder inyour java app and name it lib. 
+
+Right clock on this jar file and add it to the build path. This will convert your library into referenced library meaning JVM can now reference this library. 
+
+Step 2: 
+-------
+declare variables to define DB properties. 
+
+
+Preventing SQL Injection attack using parameterized queries. 
+
+Step 4: 
+------
+There are 2 methods for query execution
+
+1. To fetch the records we use  
+ResultSet rst= pstmt.executeQuery();
+
+2. To insert, update and delete we use, 
+pstmt.executeUpdate()
+
+
+
+
+
+
+

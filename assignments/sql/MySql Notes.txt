@@ -1,0 +1,87 @@
+MySql Notes
+===========
+
+Structure 
+
+select <column_name>  *
+from <table_name>     * 	
+where <condition>
+group by <column>   //this column has to be used with grouping funtion 
+having <condition on grouping function>
+order by <grouping_func> ASC | DESC 
+LIMIT <offset>,<number_of_records>
+
+
+Grouping/Aggregate Functions 
+----------------------------
+MAX
+MIN
+SUM
+AVG
+COUNT 
+
+Q. Display number of students from each city
+
+mumbai 	2
+chennai 1
+delhi	2
+
+select city,count(id) 
+from student
+group by city; 
+
+city='mumbai'
+|  1 | harry potter       | harry@gmail.com    | hogwards | mumbai  | CMPN   |
+|  4 | hermione granger   | hermione@gmail.com | hogwards | mumbai  | CMPN   |
+
+city='chennai'
+|  2 | ronald weasley     | ronald@gmail.com   | hogwards | chennai | CMPN   |
+
+city='delhi'
+|  5 | neville longbottom | neville@gmail.com  | kingston | delhi   | IT     |
+|  6 | draco malfoy       | draco@gmail.com    | kingston | delhi   | CMPN   |
+
+
+mumbai 2
+chennai 1
+delhi 2
+
+
+
+Level 1: Queries on Single Table 
+Level 2: DB Design - Normalization, Keys and EER Diagrams
+
+Update structure
+-----------------
+update <table_name>
+SET <column> = <new_value>
+where <condition>
+
+select  manager_id as Manager_ID , count(*) as Number_of_Employees
+from employee
+where manager_id IS NOT null
+group by manager_id;
+
+(select  manager_id as Manager_ID  
+from employee
+where manager_id IS NOT null
+group by manager_id); 
+
+
+manager_id = NULL
+|  1 | albus dumbledore | chennai   | 340000 | 1999-03-21      | IT         |       NULL |
+
+manager_id = 1
+|  2 | harry potter     | mumbai    |  90000 | 2023-03-01      | IT         |          1 |
+|  3 | ronald weasley   | chennai   |  78000 | 2023-03-10      | TESTING    |          1 |
+|  5 | severus snape    | bangalore | 230000 | 2004-02-01      | Management |          1 |
+
+manager_id = 5
+|  4 | hermione granger | mumbai    |  95000 | 2023-01-01      | Management |          5 |
+|  6 | draco malfoy     | bangalore |  88000 | 2023-01-01      | Management |          5 |
+ 
+
+#Level 2: DB Design : Normalization 
+
+
+

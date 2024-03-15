@@ -164,7 +164,10 @@ select b.event_id,b.num_tickets
 from event e , booking b
 where e.id = b.event_id AND b.num_tickets > 5;
 
-
+select c.customer_name as Customer_Name, sum(b.total_cost) as Revenue
+from  event e  JOIN booking b  ON e.id = b.event_id JOIN  customer c ON c.id = b.customer_id
+group by c.customer_name
+order by Revenue DESC;
 /* 
 	Display the names of venues visited by customer with email 'harry@gmail.com'
 */

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dto.EventRevenueDto;
+import com.dto.EventTicketDto;
 import com.util.DBUtil;
 
 public class EventDaoImpl implements EventDao{
@@ -33,4 +34,23 @@ public class EventDaoImpl implements EventDao{
 		 DBUtil.dbClose();
 		return list;
 	}
+	
+	
+	public List<EventTicketDto> getTotalTickets() throws SQLException {
+		// TODO Auto-generated method stub
+		Connection conn=DBUtil.getDBConn();
+		List<EventTicketDto> list=new ArrayList<>();
+		String sql="select event_name,SUM(total_seats-available_seats) as ticket_booked from event group by event_name";
+		PreparedStatement pstmt=conn.prepareStatement(sql);
+		ResultSet rst=pstmt.executeQuery();
+		while (rst.next()) {
+			String eventName=rst.getString("event_name");
+			int ticketBooked=rst.getInt("ticket_booked");
+			EventTicketDto dto=new EventTicketDto(eventName,ticketBooked);
+			list.add(dto);
+		}
+		DBUtil.dbClose();
+		return list;
+	}
+	
 }

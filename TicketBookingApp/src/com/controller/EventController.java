@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.dto.EventRevenueDto;
+import com.dto.EventTicketDto;
 import com.service.EventService;
 
 public class EventController {
@@ -36,6 +37,26 @@ public class EventController {
 				}
 				break;
 			case 2:
+				/* This op is similar to case 1. 
+				 * In case 1, we compute the revenue for each event. 
+				 * IN this case, we compute total bookings done. 
+				 * So the query will be
+				 *  
+				 * select event_name, SUM(total_seats-available_seats) as total_tickets_booked 
+				 * from event  
+				 * group by event_name 
+				 *  */
+				
+				try {
+					List<EventTicketDto> list=eventService.getTicketBookedByEvent();
+					System.out.println("Event Name\t\t\t\t   Total Tickets Booked");
+					for (EventTicketDto dto : list) {
+					System.out.println(
+					String.format("%-45s%d", dto.getEventName(), dto.getTicketBooked()));
+					}
+					} catch (SQLException e) {
+					System.out.println(e.getMessage());
+					}
 				break;
 			default:
 				break; 

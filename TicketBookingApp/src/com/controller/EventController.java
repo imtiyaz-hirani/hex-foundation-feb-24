@@ -6,6 +6,9 @@ import java.util.Scanner;
 
 import com.dto.EventRevenueDto;
 import com.dto.EventTicketDto;
+import com.exception.InvalidIdException;
+import com.model.Customer;
+import com.model.Event;
 import com.service.EventService;
 
 public class EventController {
@@ -16,6 +19,7 @@ public class EventController {
 			System.out.println("*********Event OPS**********");
 			System.out.println("Press 1. To calculate total revenue");
 			System.out.println("Press 2. Booked ticket Details");
+			System.out.println("Press 3. Book the ticket");
 			System.out.println("Press 0 for exit");
 			System.out.println("****************************");
 			int input = sc.nextInt();
@@ -57,6 +61,42 @@ public class EventController {
 					} catch (SQLException e) {
 					System.out.println(e.getMessage());
 					}
+				break;
+			case 3: 
+				System.out.println("Enter your ID: ");
+				int customerId = sc.nextInt();			
+				try {
+					/* Step 1:  Validate customerId */
+					Customer customer = eventService.validateCustomerId(customerId);
+					System.out.println(customer);
+					/* Step 2:  Show event details and read ID: eventID */
+					List<Event> list = eventService.fetchAllEvents();
+					for(Event e : list) {
+						System.out.println(e.getId() + "\t" + e.getEventName() + "\t Available Seats:" + e.getAvailableSeats() + 
+								"\t Ticket Cost/person" + e.getTicketPrize() + "\t" + e.getEventType());
+					}
+					System.out.println("Enter event ID to book ticket: ");
+					int eventId = sc.nextInt();
+					System.out.println("Enter number of Tickets to book: ");
+					int numberOfTickets = sc.nextInt();
+					/* Check if availableSeats>numberOfTickets */
+					//fetch event based on id and do comparision 
+					boolean isAvailable = eventService.isTicketAvailable(list,eventId,numberOfTickets);
+					if(isAvailable == false) {
+						System.out.println("Tickets not available");
+						break; 
+					}
+					/* Step 3: Insert record in booking table.  */
+					eventService.insertRecordInBooking(list,customerId,eventId,numberOfTickets);
+					
+					/* Step 4: deduct available seats from events. */
+					eventService.updateAvalableSeats(list,eventId,numberOfTickets);
+					System.out.println("Booking confirmed");
+				} catch (SQLException | InvalidIdException e) {
+					 System.out.println(e.getMessage());
+					 break;
+				}
+				System.out.println("Ticket booked successfully");
 				break;
 			default:
 				break; 

@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script src="scripts/myscript.js" > </script>
+    <script src="scripts/arrays.js" > </script>
+    <script src="scripts/employee.js" > </script>
+  </head>
+  <body onload="loadEmployees()"></body>
+   
+  <div>
+   <h3>Array Filter Ops</h3>
+   <div>
+      <input type="text" 
+             id="searchStr" 
+             name="searchStr" 
+             placeholder="Enter name to Search" 
+             onkeyup="filterEmployee()"> 
+              
+   </div>
+   <hr />
+   <div id="empData"></div>
+   <br />
+   <div>
+    <button onclick="sortEmployee('ASC')">Sort ASC</button>
+    <button onclick="sortEmployee('RESET')">RESET</button>
+    <button onclick="sortEmployee('DESC')">Sort DESC</button>
+    
+   </div>
+  </div>
+</html>
